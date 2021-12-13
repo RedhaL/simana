@@ -1,34 +1,48 @@
-import React, { createContext, useReducer, Dispatch, FC } from "react";
-import calendarReducer from './reducers/calendar';
-import { IDate, IAction } from '../types';
-import { getTodayDate } from '../common/utils';
+import React, { createContext, useReducer, FC } from "react";
+import { IAction, CalendarStateType } from '../types';
+import { getCurrentWeekStart } from '../common/utils';
+import calendarReducer from './calendar/reducer';
+import calendarMiddleware from "./calendar/actions";
+
 
 // Calendar context
-const initialState: IDate = getTodayDate();
+const initialState: CalendarStateType = getCurrentWeekStart();
 
 const useReducerWithMiddleware = (
-    reducer: (state: IDate, action: IAction) => IDate,
-    initialState: IDate
-): [IDate, (middleWareFunc: () => IAction) => void] => {
+    reducer: (state: CalendarStateType, action: IAction) => CalendarStateType,
+    initialState: CalendarStateType,
+    middlewares?: ((state: CalendarStateType, action: IAction, dispatch: (action: IAction) => void) => void)[]
+): [CalendarStateType, (action: IAction) => void] => {
+    //create reducer
     const [state, dispatch] = useReducer(reducer, initialState);
-    const dispatchWithMiddleware: (middleWareFunc: () => IAction) => void = (middleWareFunc) => {
-        const action = middleWareFunc();
-        dispatch(action);
+
+    //return default dispatcher if no middlewares supplied
+    if (!middlewares) {
+        return [state, dispatch];
     }
+
+    //call middleware functions
+    const dispatchWithMiddleware: (action: IAction) => void = (action) => {
+        middlewares.map((middleware) => {
+            middleware(state, action, dispatch);
+        });
+    };
     return [state, dispatchWithMiddleware];
 }
 
+
 const Context = createContext<{
-    state: IDate;
-    //dispatch: Dispatch<IAction>;
-    dispatch: (middleWareFunc: () => IAction) => void;
+    state: CalendarStateType;
+    dispatch: (action: IAction) => void;
 }>({
     state: initialState,
     dispatch: () => null
 });
 
+
 const AppProvider: FC = ({ children }) => {
-    const [state, dispatch] = useReducerWithMiddleware(calendarReducer, initialState);
+    const middlewares = [calendarMiddleware];
+    const [state, dispatch] = useReducerWithMiddleware(calendarReducer, initialState, middlewares);
 
     return (
         <Context.Provider value={{ state, dispatch }}>
@@ -36,5 +50,6 @@ const AppProvider: FC = ({ children }) => {
         </ Context.Provider>
     )
 }
+
 
 export { AppProvider, Context };

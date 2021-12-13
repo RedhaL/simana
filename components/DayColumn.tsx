@@ -8,7 +8,6 @@ import { IDate } from '../types';
 type Props = {
     date: IDate,
     size: InitialColumnSize,
-    dayName: string
 };
 
 interface ColumnProps {
@@ -26,14 +25,14 @@ const ColumnBG = styled.div<ColumnProps>`
 const DayColumn: FC<Props> = (props) => {
     return (
         <div>
-            <h2 className="border-b-2 border-black pt-3" >
-                {capitalizeFirstLetter(props.dayName) + " " + props.date.date}
+            <h2 className="border-b-2 border-black pt-3">
+                {`${capitalizeFirstLetter(props.date.dayName)} ${props.date.day}/${props.date.monthName}`}
             </h2>
             <ColumnBG size={props.size}>
                 <TaskInput />
             </ColumnBG>
         </div>
-    )
+    );
 }
 
 export default DayColumn;

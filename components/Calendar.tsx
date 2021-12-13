@@ -1,6 +1,6 @@
 import React, { FC, useContext } from 'react';
 import DayColumn from './DayColumn'
-import { InitialColumnSize, dayNames } from '../common/constants'
+import { InitialColumnSize } from '../common/constants'
 import { Context } from '../store/context';
 import { getWeekDays } from '../common/utils';
 
@@ -11,10 +11,9 @@ const Calendar: FC = (props) => {
     for (let i = 0; i < days.length; i++) {
         const element = days[i];
         weekColumns.push(<DayColumn
-            dayName={dayNames[i]}
             date={element}
             key={i}
-            size={InitialColumnSize.Full}
+            size={i < 5 ? InitialColumnSize.Full : InitialColumnSize.Half}
         />)
 
     }
