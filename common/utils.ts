@@ -54,12 +54,18 @@ export const getWeekDays = (date: IDate): IDate[] => {
     return days;
 }
 
+export const toTimestamp = (date: IDate): string => {
+    const d = dayjs(date);
+    return d.unix().toString();
+}
+
 const toIDateObject = (date: dayjs.Dayjs): IDate => {
     return {
         day: date.get('date'),
         dayName: date.format('dddd'),
         month: date.get('month'),
         monthName: date.format('MM'),
-        year: date.get('year')
+        year: date.get('year'),
+        timestamp: date.unix()
     };
 }

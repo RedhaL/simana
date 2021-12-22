@@ -1,16 +1,15 @@
 import { getPreviousWeek, getNextWeek, getCurrentWeekStart } from '../../common/utils';
-import { CalendarStateType, IAction, IActionMapping } from '../../types';
+import { CalendarState, IAction, ActionMapping, Dispatch} from '../../types';
 
-const nextWeek = (state: CalendarStateType, action: IAction, dispatch: (action: IAction) => void) => {
+const nextWeek = (state: CalendarState, action: IAction, dispatch: (action: IAction) => void) => {
     const day = getNextWeek(state);
-    console.log("day in action", day)
     dispatch({
         type: 'NEXT_WEEK',
         data: day
     });
 }
 
-const previousWeek = (state: CalendarStateType, action: IAction, dispatch: (action: IAction) => void) => {
+const previousWeek = (state: CalendarState, action: IAction, dispatch: (action: IAction) => void) => {
     const day = getPreviousWeek(state);
     dispatch({
         type: 'PREVIOUS_WEEK',
@@ -18,7 +17,7 @@ const previousWeek = (state: CalendarStateType, action: IAction, dispatch: (acti
     });
 }
 
-const goHome = (state:CalendarStateType, action: IAction, dispatch:(action:IAction)=>void) => {
+const goHome = (state:CalendarState, action: IAction, dispatch:(action:IAction)=>void) => {
     const day = getCurrentWeekStart();
     dispatch({
         type: 'TODAY',
@@ -26,11 +25,11 @@ const goHome = (state:CalendarStateType, action: IAction, dispatch:(action:IActi
     })
 }
 
-const actionMapping: IActionMapping = {
+const actionMapping: ActionMapping<CalendarState> = {
     'NEXT_WEEK': nextWeek,
     'PREVIOUS_WEEK': previousWeek,
     'TODAY': goHome
 }
-export default function calendarMiddleware(state: CalendarStateType, action: IAction, dispatch: (action: IAction) => void): void {
+export default function calendarMiddleware(state: CalendarState, action: IAction, dispatch: Dispatch): void {
     actionMapping[action.type](state, action, dispatch);
 }

@@ -15,11 +15,9 @@ rounded
 
 const Home: NextPage = () => {
   return (
-    <Layout>
-      <Button>
-        Button
-      </Button>
-    </Layout>
+    <Button>
+      Button
+    </Button>
   )
 }
 

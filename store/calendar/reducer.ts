@@ -1,6 +1,6 @@
-import { IAction, CalendarStateType } from "../../types";
+import { IAction, CalendarState } from "../../types";
 
-export default function calendarReducer(state: CalendarStateType, action: IAction) {
+export default function calendarReducer(state: CalendarState, action: IAction) {
    switch (action.type) {
         case 'NEXT_WEEK':
             return {

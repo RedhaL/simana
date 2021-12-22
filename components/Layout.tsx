@@ -2,22 +2,22 @@ import React, { FC, useContext, MouseEvent } from "react";
 import Head from 'next/head';
 import { ChevronLeftIcon, ChevronRightIcon  } from '@heroicons/react/outline'
 import {  HomeIcon } from '@heroicons/react/solid'
-import { Context } from "../store/context";
+import { IAction } from "../types";
 
 type Props = {
     pageTitle?: string
+    calendarDispatch: (action: IAction) => void
 }
 
 const Layout: FC<Props> = (props) => {
-    const { state, dispatch } = useContext(Context);
     const handleNext = (e: MouseEvent<HTMLButtonElement>) => {
-        dispatch({type: 'NEXT_WEEK'});
+        props.calendarDispatch({type: 'NEXT_WEEK'});
     };
     const handlePrevious = (e: MouseEvent<HTMLButtonElement>) => {
-        dispatch({type: 'PREVIOUS_WEEK'});
+        props.calendarDispatch({type: 'PREVIOUS_WEEK'});
     }
     const handleHome = (e: MouseEvent<HTMLButtonElement>) => {
-        dispatch({type: 'TODAY'})
+        props.calendarDispatch({type: 'TODAY'})
     }
     return (
         <>

@@ -3,9 +3,11 @@ export interface IAction {
     data?: any
 };
 
-export interface IActionMapping {
-    [actionName: string]: (IDate, IAction, dispatch: (action: IAction) => void) => void
-};
+export type Dispatch = (action: IAction) => void;
+
+export interface ActionMapping<StateType> {
+    [actionName: string]: (state: StateType, action: IAction, dispatch: Dispatch) => void
+}
 
 export type PropsWithChildren<P> = P & { children?: ReactNode };
 
@@ -16,18 +18,22 @@ export interface IDate {
     month: number,
     monthName: string,
     year: number,
+    timestamp: number
 };
 
-export type CalendarStateType = IDate;
+export type CalendarState = IDate;
 
 // Task types
 export interface ITask {
-    id: number,
+    id: string,
     title: string,
     description: string,
     done: boolean,
-    date: IDate,
-    color: string
+    timestamp: number,
+    color: string,
+    order: number
 };
 
-export type TaskStateType = ITask[];
+export interface TaskState {
+    [day: number]: ITask[]
+} ;
