@@ -30,8 +30,7 @@ export interface ITask {
     description: string,
     done: boolean,
     timestamp: number,
-    color: string,
-    order: number
+    color: string
 };
 
 export interface TaskState {

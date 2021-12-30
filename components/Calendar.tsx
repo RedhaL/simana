@@ -1,4 +1,5 @@
 import React, { FC, useContext } from 'react';
+import tw, { styled } from 'twin.macro';
 import DayColumn from './DayColumn'
 import { InitialColumnSize } from '../common/constants'
 import { getWeekDays } from '../common/utils';
@@ -15,6 +16,11 @@ const getListStyle = (isDraggingOver: boolean) => ({
     background: isDraggingOver ? "lightblue" : "lightgrey",
     width: 250
 });
+
+const CalendarWrapper = styled.div`
+    display: grid;
+    grid-template-columns: repeat(6,16.66666%);
+`
 
 const Calendar: FC<Props> = ({ taskDispatch, taskStore, calendarStore }) => {
     const onDragEnd = (result: DropResult): void => {
@@ -67,12 +73,12 @@ const Calendar: FC<Props> = ({ taskDispatch, taskStore, calendarStore }) => {
         <DragDropContext
             onDragEnd={onDragEnd}
         >
-            <div className="flex">
+            <CalendarWrapper className="flex flex-1">
                 {dayColumns.slice(0, 5)}
                 <div>
                     {dayColumns.slice(-2)}
                 </div>
-            </div>
+            </CalendarWrapper>
         </DragDropContext>
     )
 }

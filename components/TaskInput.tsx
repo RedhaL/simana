@@ -27,6 +27,8 @@ const StyledInput = styled.input`
         appearance-none
         outline-none
         px-2
+        w-full
+        h-full
     `}
 `
 
@@ -37,8 +39,7 @@ const TaskInput: FC<Props> = (props) => {
         description: "",
         done: false,
         timestamp: props.timestamp,
-        color: "",
-        order: 0
+        color: ""
     };
     const [title, setTitle] = useState(task.title);
 
@@ -64,7 +65,6 @@ const TaskInput: FC<Props> = (props) => {
         });
     }
     const handleDelete = (e: MouseEvent<HTMLButtonElement>) => {
-        console.log('Delete: ', props.index, ', ', props.task && props.task.title, ', ', props.timestamp)
         props.dispatch({
             type: 'DELETE_TASK',
             data: {
@@ -73,19 +73,18 @@ const TaskInput: FC<Props> = (props) => {
             }
         });
     }
-    if (props.index || props.index == 0) {
-        console.log('index: ', props.index, 'item:', props.task && props.task.title, 'droppable: ', props.timestamp)
-    }
     return (
         <TaskWrapper>
-            <StyledInput
-                type="text"
-                value={title}
-                readOnly={props.task && true}
-                disabled={task.done} // to delete
-                onBlur={handleBlur}
-                onChange={e => setTitle(e.target.value)}
-            />
+            <div className="flex-1">
+                <StyledInput
+                    type="text"
+                    value={title}
+                    readOnly={props.task && true}
+                    disabled={task.done} // to delete
+                    onBlur={handleBlur}
+                    onChange={e => setTitle(e.target.value)}
+                />
+            </div>
             {props.task &&
                 <>
                     <div className="p-2">
