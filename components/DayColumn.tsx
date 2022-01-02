@@ -3,6 +3,7 @@ import tw, { styled } from 'twin.macro';
 import { capitalizeFirstLetter } from '../common/utils';
 import { InitialColumnSize } from '../common/constants'
 import TaskInput from './TaskInput';
+import Task from './Task';
 import { Dispatch, IDate, ITask } from '../types';
 import { Draggable, DraggableProvided, DraggableStateSnapshot } from 'react-beautiful-dnd';
 
@@ -49,11 +50,10 @@ const DayColumn: FC<Props> = (props) => {
                                 {...providedDraggable.draggableProps}
                                 {...providedDraggable.dragHandleProps}
                             >
-                                <TaskInput
+                                <Task
                                     dispatch={props.taskDispatch}
                                     task={element}
                                     key={element.id}
-                                    timestamp={props.date.timestamp}
                                     index={index}
                                 />
                             </div>

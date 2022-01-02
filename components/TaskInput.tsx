@@ -1,13 +1,10 @@
 import React, { FC, FocusEvent, MouseEvent, useState } from 'react';
 import tw, { styled } from 'twin.macro';
 import { ITask, Dispatch } from '../types';
-import { TrashIcon, CheckIcon } from '@heroicons/react/outline'
 
 type Props = {
-    task?: ITask
     dispatch: Dispatch
     timestamp: number
-    index?: number
 };
 
 const TaskWrapper = styled.div`
@@ -33,7 +30,7 @@ const StyledInput = styled.input`
 `
 
 const TaskInput: FC<Props> = (props) => {
-    const task: ITask = props.task || {
+    const task: ITask = {
         id: "",
         title: "",
         description: "",
@@ -45,7 +42,7 @@ const TaskInput: FC<Props> = (props) => {
 
     const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
         const value = title;
-        if (value && !props.task) {
+        if (value) {
             task.title = value;
             props.dispatch({
                 type: 'ADD_TASK',
@@ -55,50 +52,14 @@ const TaskInput: FC<Props> = (props) => {
         }
     }
 
-    const handleCheck = (e: MouseEvent<HTMLButtonElement>) => {
-        props.dispatch({
-            type: 'TOGGLE_DONE',
-            data: {
-                task,
-                index: props.index
-            }
-        });
-    }
-    const handleDelete = (e: MouseEvent<HTMLButtonElement>) => {
-        props.dispatch({
-            type: 'DELETE_TASK',
-            data: {
-                task,
-                index: props.index
-            }
-        });
-    }
     return (
         <TaskWrapper>
-            <div className="flex-1">
-                <StyledInput
-                    type="text"
-                    value={title}
-                    readOnly={props.task && true}
-                    disabled={task.done} // to delete
-                    onBlur={handleBlur}
-                    onChange={e => setTitle(e.target.value)}
-                />
-            </div>
-            {props.task &&
-                <>
-                    <div className="p-2">
-                        <button onClick={handleCheck}>
-                            <CheckIcon className="h-5 w-5 text-gray-600" />
-                        </button>
-                    </div>
-                    <div className="p-2">
-                        <button onClick={handleDelete}>
-                            <TrashIcon className="h-5 w-5 text-gray-600" />
-                        </button>
-                    </div>
-                </>
-            }
+            <StyledInput
+                type="text"
+                value={title}
+                onBlur={handleBlur}
+                onChange={e => setTitle(e.target.value)}
+            />
         </TaskWrapper>
     )
 }
