@@ -18,9 +18,11 @@ const TaskWrapper = styled.div`
         hover:border-indigo-600
         w-full
         max-w-full
+        
     `}
     border-color: rgba(68, 68, 68, .2);
     height: 38px;
+    
 `
 
 const Title = styled.span`
@@ -53,9 +55,15 @@ const Task: FC<Props> = (props) => {
     }
     return (
         <TaskWrapper>
+            {props.task.done ? 
+            <div className="flex-1 line-through opacity-30">
+                <Title>{props.task.title}</Title>
+            </div>
+            : 
             <div className="flex-1">
                 <Title>{props.task.title}</Title>
             </div>
+            }
             <div className="p-2">
                 <button onClick={handleCheck}>
                     <CheckIcon className="h-5 w-5 text-gray-600" />
