@@ -1,4 +1,4 @@
-import React, { FC, MouseEvent, useState } from 'react';
+import React, { FC, MouseEvent, useEffect, useState } from 'react';
 import tw, { styled } from 'twin.macro';
 import { ITask, Dispatch } from '../types';
 import { TrashIcon, CheckIcon } from '@heroicons/react/outline'
@@ -18,6 +18,7 @@ const TaskWrapper = styled.div`
         hover:border-indigo-600
         w-full
         max-w-full
+        cursor-pointer
         
     `}
     border-color: rgba(68, 68, 68, .2);
@@ -53,6 +54,18 @@ const Task: FC<Props> = (props) => {
             }
         });
     }
+
+    // const handleEdit = (e: MouseEvent<HTMLButtonElement>) => {
+    //     props.dispatch({
+    //         type: 'EDIT_TASK',
+    //         data: {
+    //             task: props.task,
+    //             index: props.index
+    //         }
+    //     });
+    // }
+
+
     return (
         <TaskWrapper>
             {props.task.done ? 
