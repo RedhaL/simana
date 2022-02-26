@@ -14,8 +14,20 @@ export default function TaskReducer(state: TaskState, action: IAction) {
             ];
             return newState;
         case 'EDIT_TASK':
+            const newEditedState = state[action.data.task.timestamp].map((el, ind) => {
+                if (ind == action.data.index) {
+                    return {
+                        ...action.data.task,
+                        title: action.data.task.title
+                    };
+                }
+                else {
+                    return el;
+                }
+            });
             return {
-                ...state
+                ...state,
+                [action.data.task.timestamp]: newEditedState
             };
         case 'TOGGLE_DONE':
             const newDayState = state[action.data.task.timestamp].map((el, ind) => {

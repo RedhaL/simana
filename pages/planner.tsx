@@ -21,15 +21,12 @@ const Planner: NextPage = () => {
     var storedTasks: any = ""
     if (typeof window !== 'undefined') {
         const saved = localStorage.getItem("tasks");
-        var storedTasks = JSON.parse(saved ? saved : "");
+        storedTasks = JSON.parse(saved ? saved : "{}");
     } 
 
     // tasks reducer
     const taskMiddlewares = [taskMiddleware];
     const [taskStore, taskDispatch] = useReducerWithMiddleware<TaskState, IAction>(TaskReducer, storedTasks, taskMiddlewares);
-    console.log("ok", taskMiddlewares)
-    console.log("k", taskStore)
-
 
     // storing tasks in local storage
     useEffect(() => {
