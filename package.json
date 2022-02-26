@@ -15,6 +15,7 @@
     "next": "12.0.4",
     "react": "17.0.2",
     "react-beautiful-dnd": "^13.1.0",
+    "react-color": "^2.19.3",
     "react-dom": "17.0.2",
     "reactjs-popup": "^2.0.5",
     "styled-components": "^5.3.3",
@@ -23,6 +24,7 @@
   "devDependencies": {
     "@types/node": "16.11.10",
     "@types/react": "17.0.37",
+    "@types/react-color": "^3.0.6",
     "@types/styled-components": "^5.1.16",
     "autoprefixer": "^10.4.0",
     "babel-plugin-styled-components": "^2.0.2",

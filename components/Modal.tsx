@@ -5,8 +5,10 @@ import dayjs from "dayjs";
 import {
   TrashIcon,
   CheckCircleIcon,
+  PencilIcon,
 } from "@heroicons/react/outline";
 import tw, { styled } from "twin.macro";
+import { CirclePicker } from "react-color";
 
 type Props = {
   task: ITask;
@@ -30,8 +32,18 @@ const StyledPopup = styled(Popup)`
     ${tw`
        flex
        h-full
-       w-full
-       
+       w-full      
+    `}
+  }
+`;
+
+const ColorPickerMenu = styled(Popup)`
+  &-overlay {
+    ${tw`
+    `}
+  }
+  &-content {
+    ${tw`
     `}
   }
 `;
@@ -42,7 +54,8 @@ const Title = styled.span`
         w-full
         h-full
         overflow-ellipsis
-    `}
+        rounded-lg
+        `}
 `;
 
 const Modal: FC<Props> = (props) => {
@@ -83,31 +96,119 @@ const Modal: FC<Props> = (props) => {
     }
   };
 
+  const handleChangeColor = (color: { hex: string }) => {
+    props.dispatch({
+      type: "EDIT_TASK",
+      data: {
+        task: { ...props.task, color: color.hex },
+        index: props.index,
+      },
+    });
+  };
   return (
     <div className="flex-1">
       <StyledPopup
-        trigger={<Title>{props.task.title}</Title>}
+        trigger={
+          <Title
+            // className={
+            //   props.task.done ? "flex-1 line-through opacity-30" : "null"
+            // }
+            className={
+              !props.task.done
+                ? props.task.color == "#4caf50"
+                  ? "bg-Igreen"
+                  : props.task.color == "#f44336"
+                  ? "bg-Ired"
+                  : props.task.color == "#ffeb3b"
+                  ? "bg-Iyellow"
+                  : props.task.color == "#ff9800"
+                  ? "bg-Iorange"
+                  : props.task.color == "#9c27b0"
+                  ? "bg-Ipink"
+                  : props.task.color == "#673ab7"
+                  ? "bg-Iviolet"
+                  : props.task.color == "#795548"
+                  ? "bg-Ibrown"
+                  : props.task.color == "#2196f3"
+                  ? "bg-Iblue"
+                  : "null"
+                : props.task.color == "#4caf50"
+                ? "bg-Igreen flex-1 line-through opacity-30"
+                : props.task.color == "#f44336"
+                ? "bg-Ired flex-1 line-through opacity-30"
+                : props.task.color == "#ffeb3b"
+                ? "bg-Iyellow flex-1 line-through opacity-30"
+                : props.task.color == "#ff9800"
+                ? "bg-Iorange flex-1 line-through opacity-30"
+                : props.task.color == "#9c27b0"
+                ? "bg-Ipink flex-1 line-through opacity-30"
+                : props.task.color == "#673ab7"
+                ? "bg-Iviolet flex-1 line-through opacity-30"
+                : props.task.color == "#795548"
+                ? "bg-Ibrown flex-1 line-through opacity-30"
+                : props.task.color == "#2196f3"
+                ? "bg-Iblue flex-1 line-through opacity-30"
+                : "flex-1 line-through opacity-30"
+            }
+          >
+            {props.task.title}
+          </Title>
+        }
         modal
-        closeOnDocumentClick
+        nested
       >
         <div className="w-full">
           <div className="flex justify-between">
             <div className="">{dayjs.unix(props.task.timestamp).format()}</div>
             <div className="">
               <button onClick={handleDelete}>
-                <TrashIcon className="h-5 w-5 text-gray-600" />
+                <TrashIcon className="h-5 w-5 text-gray-600 cursor-pointer" />
               </button>
+              <Popup
+                trigger={
+                  <button>
+                    <PencilIcon className="h-5 w-5 text-gray-600 cursor-pointer" />
+                  </button>
+                }
+                position="bottom right"
+                on="hover"
+                closeOnDocumentClick
+                mouseLeaveDelay={300}
+                mouseEnterDelay={0}
+                contentStyle={{ padding: "0px", border: "none" }}
+                arrow={false}
+                nested
+              >
+                <CirclePicker
+                  width={"200px"}
+                  colors={[
+                    "#f44336",
+                    "#9c27b0",
+                    "#673ab7",
+                    "#2196f3",
+                    "#4caf50",
+                    "#ffeb3b",
+                    "#ff9800",
+                    "#795548",
+                  ]}
+                  onChange={handleChangeColor}
+                />
+              </Popup>
             </div>
           </div>
           <span className="pt-20 border-b-2 border-black flex font-bold justify-between">
             <input
-              value={title}
               type="text"
-              className="outline-none bg-indigo-200 w-full font-extrabold"
+              className={
+                props.task.done
+                  ? "flex-1 line-through opacity-30 outline-none bg-indigo-200 w-full font-extrabold"
+                  : "outline-none bg-indigo-200 w-full font-extrabold"
+              }
               onChange={(e) => setTitle(e.target.value)}
               onKeyPress={handleKeyPress}
               defaultValue={props.task.title}
             ></input>
+
             <button onClick={handleCheck}>
               <CheckCircleIcon className="h-5 w-5 text-gray-600" />
             </button>

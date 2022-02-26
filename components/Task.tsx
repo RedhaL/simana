@@ -10,7 +10,6 @@ type Props = {
   index: number;
 };
 
-
 const TaskWrapper = styled.div`
   ${tw`
         flex
@@ -56,21 +55,10 @@ const Task: FC<Props> = (props) => {
     });
   };
 
-
-
   return (
     <TaskWrapper>
-      {props.task.done ? (
-        <div className="flex-1 line-through opacity-30">
-          <Title>{props.task.title}</Title>
-        </div>
-      ) : (
-        <Modal
-          dispatch={props.dispatch}
-          task={props.task}
-          index={props.index}
-        />
-      )}
+      <Modal dispatch={props.dispatch} task={props.task} index={props.index} />
+
       <div className="p-2">
         <button onClick={handleCheck}>
           <CheckIcon className="h-5 w-5 text-gray-600" />
