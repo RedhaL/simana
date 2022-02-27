@@ -23,6 +23,7 @@ const StyledPopup = styled(Popup)`
         rounded
         border-2
         p-4
+        
     `}
     margin: auto;
     width: 50%;
@@ -37,25 +38,18 @@ const StyledPopup = styled(Popup)`
   }
 `;
 
-const ColorPickerMenu = styled(Popup)`
-  &-overlay {
-    ${tw`
-    `}
-  }
-  &-content {
-    ${tw`
-    `}
-  }
-`;
 
 const Title = styled.span`
   ${tw`
         px-2
         w-full
         h-full
-        overflow-ellipsis
         rounded-lg
+        truncate
         `}
+        text-overflow: ellipsis;
+        overflow: hidden;
+
 `;
 
 const Modal: FC<Props> = (props) => {
@@ -105,14 +99,13 @@ const Modal: FC<Props> = (props) => {
       },
     });
   };
+  
+
   return (
-    <div className="flex-1">
+    <div className="flex w-3/4 p-1">
       <StyledPopup
         trigger={
           <Title
-            // className={
-            //   props.task.done ? "flex-1 line-through opacity-30" : "null"
-            // }
             className={
               !props.task.done
                 ? props.task.color == "#4caf50"
