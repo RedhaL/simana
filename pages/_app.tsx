@@ -17,13 +17,13 @@ const theme = {
 }
 
 function App({ Component, pageProps }: AppProps) {
-  return (
-    <>
+  return (<>
       <GlobalStyle />
       <ThemeProvider theme={theme}>
         <Component {...pageProps} />
       </ThemeProvider>
-    </>
+      </>
+    
   )
 }
 

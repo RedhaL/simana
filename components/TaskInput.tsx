@@ -52,6 +52,22 @@ const TaskInput: FC<Props> = (props) => {
         }
     }
 
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if(e.key === 'Enter'){
+            const value = title;
+            if (value) {
+                task.title = value;
+                props.dispatch({
+                    type: 'ADD_TASK',
+                    data: task
+                });
+                setTitle("");
+            }
+        }
+      }
+    
+    
+
     return (
         <TaskWrapper>
             <StyledInput
@@ -59,6 +75,7 @@ const TaskInput: FC<Props> = (props) => {
                 value={title}
                 onBlur={handleBlur}
                 onChange={e => setTitle(e.target.value)}
+                onKeyPress={handleKeyPress}
             />
         </TaskWrapper>
     )

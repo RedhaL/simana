@@ -20,6 +20,6 @@
     "next-env.d.ts", 
     "**/*.ts", 
     "**/*.tsx"
-  ],
+, "store/auth/action.js", "store/auth/reducer.js"  ],
   "exclude": ["node_modules"]
 }
