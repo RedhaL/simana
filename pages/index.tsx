@@ -1,23 +1,32 @@
 import type { NextPage } from 'next'
-import Layout from '../components/Layout';
-import styled from 'styled-components';
-import tw from 'twin.macro';
+import {BrowserRouter, Routes, Route, Navigate} from "react-router-dom"
+import Planner from './planner';
+import Login from './login';
 
-const Button = tw.button`
-bg-blue-500
-hover:bg-blue-700
-text-white
-font-bold
-py-2
-px-4
-rounded
-`;
+
 
 const Home: NextPage = () => {
-  return (
-    <Button>
-      Button
-    </Button>
+//   const user = {
+//     "_id": "621bb7377e3b531ca6d5a836",
+//     "username": "youssef",
+//     "email": "youssef@gmail.comm",
+//     "profilePicture": "",
+//     "__v": 0,
+//     "city": "asnieres sur seine"
+// }
+  const user = null
+
+  return (<>
+    {typeof window !== 'undefined'? 
+    <BrowserRouter>
+      <Routes>
+        <Route  path="/" element={user ? <Planner/> : <Login/> }/>
+        <Route  path="/login" element={user ? <Navigate to="/" />: <Login/>}/>
+
+      </Routes>
+    </BrowserRouter> : 
+    <div></div>}
+    </>
   )
 }
 

@@ -38,6 +38,7 @@ const DayColumn: FC<Props> = (props) => {
                 {`${capitalizeFirstLetter(props.date.dayName)} ${props.date.day}/${props.date.monthName}`}
             </h2>
             <ColumnBG size={props.size}>
+                
                 {props.tasks && props.tasks.map((element, index) => (
                     <Draggable
                         key={element.id}
