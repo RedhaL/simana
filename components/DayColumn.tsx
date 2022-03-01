@@ -38,7 +38,7 @@ const DayColumn: FC<Props> = (props) => {
                 {`${capitalizeFirstLetter(props.date.dayName)} ${props.date.day}/${props.date.monthName}`}
             </h2>
             <ColumnBG size={props.size}>
-                
+
                 {props.tasks && props.tasks.map((element, index) => (
                     <Draggable
                         key={element.id}
@@ -61,9 +61,22 @@ const DayColumn: FC<Props> = (props) => {
                         )}
                     </Draggable>
                 ))}
-                <div>
-                    <TaskInput dispatch={props.taskDispatch} timestamp={props.date.timestamp} />
-                </div>
+                <Draggable
+                    key={`${props.date.timestamp}_0`}
+                    draggableId={`${props.date.timestamp}_0`}
+                    isDragDisabled={true}
+                    index={props.tasks ? props.tasks.length : 0}
+                >
+                    {(providedDraggable: DraggableProvided, snapshotDraggable: DraggableStateSnapshot) => (
+                        <div
+                            ref={providedDraggable.innerRef}
+                            {...providedDraggable.draggableProps}
+                            {...providedDraggable.dragHandleProps}
+                        >
+                            <TaskInput dispatch={props.taskDispatch} timestamp={props.date.timestamp} />
+                        </div>
+                    )}
+                </Draggable>
             </ColumnBG>
         </div>
     );
