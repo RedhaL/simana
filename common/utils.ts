@@ -66,6 +66,7 @@ const toIDateObject = (date: dayjs.Dayjs): IDate => {
         month: date.get('month'),
         monthName: date.format('MM'),
         year: date.get('year'),
-        timestamp: date.unix()
+        timestamp: date.unix(),
+        _id: date.unix().toString()
     };
 }
