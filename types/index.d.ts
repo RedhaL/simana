@@ -18,7 +18,8 @@ export interface IDate {
     month: number,
     monthName: string,
     year: number,
-    timestamp: number
+    timestamp: number,
+    _id: string
 };
 
 export type CalendarState = IDate;
@@ -29,10 +30,18 @@ export interface ITask {
     title: string,
     description: string,
     done: boolean,
-    timestamp: number,
+    timestamp: number | null,
+    columnId?: string,
     color: string
 };
 
 export interface TaskState {
-    [day: number]: ITask[]
-} ;
+    [columnId: string]: ITask[]
+};
+
+export interface ICategory {
+    _id: string,
+    title: string
+};
+
+export interface CategoryState extends Array<ICategory> {};

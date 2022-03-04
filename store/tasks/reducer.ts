@@ -1,20 +1,20 @@
 import { IAction, ITask, TaskState } from "../../types";
-import { DraggableLocation } from "react-beautiful-dnd";
 
 export default function TaskReducer(state: TaskState, action: IAction) {
+    const field = "columnId";
     switch (action.type) {
         case 'ADD_TASK':
             const newState = { ...state };
-            if (!newState[action.data.timestamp]) {
-                newState[action.data.timestamp] = [];
+            if (!newState[action.data.task[field]]) {
+                newState[action.data.task[field]] = [];
             }
-            newState[action.data.timestamp] = [
-                ...newState[action.data.timestamp],
-                action.data
+            newState[action.data.task[field]] = [
+                ...newState[action.data.task[field]],
+                action.data.task
             ];
             return newState;
         case 'EDIT_TASK':
-            const newEditedState = state[action.data.task.timestamp].map((el, ind) => {
+            const newEditedState = state[action.data.task[field]].map((el, ind) => {
                 if (ind == action.data.index) {
                     return {
                         ...action.data.task,
@@ -27,10 +27,10 @@ export default function TaskReducer(state: TaskState, action: IAction) {
             });
             return {
                 ...state,
-                [action.data.task.timestamp]: newEditedState
+                [action.data.task[field]]: newEditedState
             };
         case 'TOGGLE_DONE':
-            const newDayState = state[action.data.task.timestamp].map((el, ind) => {
+            const newDayState = state[action.data.task[field]].map((el, ind) => {
                 if (ind == action.data.index) {
                     return {
                         ...action.data.task,
@@ -43,14 +43,16 @@ export default function TaskReducer(state: TaskState, action: IAction) {
             });
             return {
                 ...state,
-                [action.data.task.timestamp]: newDayState
+                [action.data.task[field]]: newDayState
             };
         case 'MOVE_TASK':
             const { source, destination } = action.data;
             const element = {
                 ...state[action.data.source.droppableId][source.index],
-                timestamp: parseInt(action.data.destination.droppableId)
+                timestamp: parseInt(action.data.destination.droppableId),
+                columnId: action.data.destination.droppableId
             };
+
             const newSource = state[action.data.source.droppableId].filter((el, ind) => {
                 return ind != source.index;
             });
@@ -67,7 +69,7 @@ export default function TaskReducer(state: TaskState, action: IAction) {
                     newDestination = state[action.data.destination.droppableId].slice();
                 }
             }
-            
+
             newDestination.splice(destination.index, 0, element);
             return {
                 ...state,
@@ -75,12 +77,12 @@ export default function TaskReducer(state: TaskState, action: IAction) {
                 [action.data.destination.droppableId]: newDestination
             }
         case 'DELETE_TASK':
-            const toDelete = state[action.data.task.timestamp].filter((el, ind) => {
+            const toDelete = state[action.data.task[field]].filter((el, ind) => {
                 return ind != action.data.index;
             })
             return {
                 ...state,
-                [action.data.task.timestamp]: toDelete
+                [action.data.task[field]]: toDelete
             };
         default:
             throw new Error();

@@ -99,7 +99,7 @@ const Modal: FC<Props> = (props) => {
       },
     });
   };
-  
+
 
   return (
     <div className="flex w-3/4 p-1">
@@ -111,37 +111,37 @@ const Modal: FC<Props> = (props) => {
                 ? props.task.color == "#4caf50"
                   ? "bg-Igreen"
                   : props.task.color == "#f44336"
-                  ? "bg-Ired"
-                  : props.task.color == "#ffeb3b"
-                  ? "bg-Iyellow"
-                  : props.task.color == "#ff9800"
-                  ? "bg-Iorange"
-                  : props.task.color == "#9c27b0"
-                  ? "bg-Ipink"
-                  : props.task.color == "#673ab7"
-                  ? "bg-Iviolet text-white"
-                  : props.task.color == "#795548"
-                  ? "bg-Ibrown"
-                  : props.task.color == "#2196f3"
-                  ? "bg-Iblue"
-                  : "null"
+                    ? "bg-Ired"
+                    : props.task.color == "#ffeb3b"
+                      ? "bg-Iyellow"
+                      : props.task.color == "#ff9800"
+                        ? "bg-Iorange"
+                        : props.task.color == "#9c27b0"
+                          ? "bg-Ipink"
+                          : props.task.color == "#673ab7"
+                            ? "bg-Iviolet text-white"
+                            : props.task.color == "#795548"
+                              ? "bg-Ibrown"
+                              : props.task.color == "#2196f3"
+                                ? "bg-Iblue"
+                                : "null"
                 : props.task.color == "#4caf50"
-                ? "bg-Igreen flex-1 line-through opacity-30"
-                : props.task.color == "#f44336"
-                ? "bg-Ired flex-1 line-through opacity-30"
-                : props.task.color == "#ffeb3b"
-                ? "bg-Iyellow flex-1 line-through opacity-30"
-                : props.task.color == "#ff9800"
-                ? "bg-Iorange flex-1 line-through opacity-30"
-                : props.task.color == "#9c27b0"
-                ? "bg-Ipink flex-1 line-through opacity-30"
-                : props.task.color == "#673ab7"
-                ? "bg-Iviolet flex-1 line-through opacity-30 text-white"
-                : props.task.color == "#795548"
-                ? "bg-Ibrown flex-1 line-through opacity-30"
-                : props.task.color == "#2196f3"
-                ? "bg-Iblue flex-1 line-through opacity-30"
-                : "flex-1 line-through opacity-30"
+                  ? "bg-Igreen flex-1 line-through opacity-30"
+                  : props.task.color == "#f44336"
+                    ? "bg-Ired flex-1 line-through opacity-30"
+                    : props.task.color == "#ffeb3b"
+                      ? "bg-Iyellow flex-1 line-through opacity-30"
+                      : props.task.color == "#ff9800"
+                        ? "bg-Iorange flex-1 line-through opacity-30"
+                        : props.task.color == "#9c27b0"
+                          ? "bg-Ipink flex-1 line-through opacity-30"
+                          : props.task.color == "#673ab7"
+                            ? "bg-Iviolet flex-1 line-through opacity-30 text-white"
+                            : props.task.color == "#795548"
+                              ? "bg-Ibrown flex-1 line-through opacity-30"
+                              : props.task.color == "#2196f3"
+                                ? "bg-Iblue flex-1 line-through opacity-30"
+                                : "flex-1 line-through opacity-30"
             }
           >
             {props.task.title}
@@ -149,10 +149,11 @@ const Modal: FC<Props> = (props) => {
         }
         modal
         nested
+        closeOnDocumentClick
       >
         <div className="w-full">
           <div className="flex justify-between">
-            <div className="">{dayjs.unix(props.task.timestamp).format()}</div>
+            <div className="">{props.task.timestamp ? dayjs.unix(props.task.timestamp).format() : props.task.columnId}</div>
             <div className="">
               <button onClick={handleDelete}>
                 <TrashIcon className="h-5 w-5 text-gray-600 cursor-pointer" />

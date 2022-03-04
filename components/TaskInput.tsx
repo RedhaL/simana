@@ -4,6 +4,7 @@ import { ITask, Dispatch } from '../types';
 
 type Props = {
     dispatch: Dispatch
+    columnId: string
     timestamp: number
 };
 
@@ -35,9 +36,11 @@ const TaskInput: FC<Props> = (props) => {
         title: "",
         description: "",
         done: false,
-        timestamp: props.timestamp,
-        color: ""
+        timestamp: props.timestamp ? props.timestamp : null,
+        columnId: props.columnId,
+        color: "",
     };
+
     const [title, setTitle] = useState(task.title);
 
     const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
@@ -46,27 +49,27 @@ const TaskInput: FC<Props> = (props) => {
             task.title = value;
             props.dispatch({
                 type: 'ADD_TASK',
-                data: task
+                data: { task }
             });
             setTitle("");
         }
     }
 
     const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if(e.key === 'Enter'){
+        if (e.key === 'Enter') {
             const value = title;
             if (value) {
                 task.title = value;
                 props.dispatch({
                     type: 'ADD_TASK',
-                    data: task
+                    data: { task }
                 });
                 setTitle("");
             }
         }
-      }
-    
-    
+    }
+
+
 
     return (
         <TaskWrapper>

@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const addTask = (state: TaskState, action: IAction, dispatch: (action: IAction) => void) => {
     const id = uuidv4();
-    action.data.id = id;
+    action.data.task.id = id;
     dispatch(action);
 }
 
