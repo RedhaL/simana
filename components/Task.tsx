@@ -21,11 +21,8 @@ const TaskWrapper = styled.div`
         w-full   
     `}
   border-color: rgba(68, 68, 68, .2);
-  height: 38px; 
-  
-
+  height: 38px;
 `;
-
 
 const Task: FC<Props> = (props) => {
   const handleCheck = (e: MouseEvent<HTMLButtonElement>) => {
@@ -52,16 +49,16 @@ const Task: FC<Props> = (props) => {
       <Modal dispatch={props.dispatch} task={props.task} index={props.index} />
       <div className="w-1/4 flex flex-1">
         <div className="p-2">
-        <button onClick={handleCheck}>
-          <CheckIcon className="h-5 w-5 text-gray-600" />
-        </button>
+          <button onClick={handleCheck}>
+            <CheckIcon className="h-5 w-5 text-gray-600" />
+          </button>
+        </div>
+        <div className="p-2">
+          <button onClick={handleDelete}>
+            <TrashIcon className="h-5 w-5 text-gray-600" />
+          </button>
+        </div>
       </div>
-      <div className="p-2">
-        <button onClick={handleDelete}>
-          <TrashIcon className="h-5 w-5 text-gray-600" />
-        </button>
-      </div></div> 
-      
     </TaskWrapper>
   );
 };
