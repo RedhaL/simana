@@ -3,13 +3,11 @@ import { styled } from "twin.macro";
 import TaskColumn from "./TaskColumn";
 import { InitialColumnSize } from "../common/constants";
 import { getWeekDays } from "../common/utils";
-import { IAction, TaskState, ITask, CategoryState, CalendarState } from "../types";
+import { IAction, TaskState, CategoryState, CalendarState } from "../types";
 import {
-  DragDropContext,
   Droppable,
   DroppableProvided,
   DroppableStateSnapshot,
-  DropResult
 } from "react-beautiful-dnd";
 
 interface Props {
@@ -29,7 +27,12 @@ const CalendarWrapper = styled.div`
   grid-template-columns: repeat(6, 16.66666%);
 `;
 
-const TaskContainer: FC<Props> = ({ taskDispatch, tasks, categoryStore, calendarStore }) => {
+const TaskContainer: FC<Props> = ({
+  taskDispatch,
+  tasks,
+  categoryStore,
+  calendarStore,
+}) => {
   // Make Sure the window object is ready before loading up CalendarWrapper. [Bug 1] : https://www.notion.so/BUG-1-Tasks-in-first-line-can-t-be-moved-22a81bca43e94811b01216899699c04b
   const [winReady, setwinReady] = useState(false);
   useEffect(() => {
@@ -40,9 +43,8 @@ const TaskContainer: FC<Props> = ({ taskDispatch, tasks, categoryStore, calendar
   let items: any = [];
   if (calendarStore) {
     items = getWeekDays(calendarStore);
-  }
-  else {
-    items = categoryStore
+  } else {
+    items = categoryStore;
   }
   for (let i = 0; i < items.length; i++) {
     const element = items[i];
@@ -52,10 +54,7 @@ const TaskContainer: FC<Props> = ({ taskDispatch, tasks, categoryStore, calendar
       columnSize = i < 5 ? InitialColumnSize.Full : InitialColumnSize.Half;
     }
     columns.push(
-      <Droppable
-        key={element._id}
-        droppableId={element._id}
-      >
+      <Droppable key={element._id} droppableId={element._id}>
         {(provided: DroppableProvided, snapshot: DroppableStateSnapshot) => (
           <div
             ref={provided.innerRef}
@@ -79,17 +78,16 @@ const TaskContainer: FC<Props> = ({ taskDispatch, tasks, categoryStore, calendar
     <>
       {winReady ? (
         <CalendarWrapper className="flex flex-1">
-          {calendarStore ?
+          {calendarStore ? (
             <>
               {columns.slice(0, 5)}
               <div>{columns.slice(-2)}</div>
             </>
-            :
+          ) : (
             columns
-          }
+          )}
         </CalendarWrapper>
-      ) : null
-      }
+      ) : null}
     </>
   );
 };

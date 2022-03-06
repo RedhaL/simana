@@ -30,6 +30,9 @@ const TaskSchema = new mongoose.Schema(
       type: String,
       max: 20,
     },
+    columnId: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
