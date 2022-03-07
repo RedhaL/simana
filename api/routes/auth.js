@@ -1,16 +1,20 @@
 const router = require("express").Router();
 const User = require("../models/User");
+const bcrypt = require("bcrypt");
 
 //Signup
 
 router.post("/signup", async (req, res) => {
   try {
+    //Generate new password for security
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
     // Create new user
     const newUser = new User({
       username: req.body.username,
       email: req.body.email,
-      password: req.body.password,
+      password: hashedPassword,
     });
 
     // save user and respond
@@ -25,10 +29,11 @@ router.post("/signup", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
+    const validPassword = await bcrypt.compare(req.body.password, user.password);
     if (!user) {
       res.status(404).json("user not found");
     } else {
-      if (user.password !== req.body.password) {
+      if (!validPassword) {
         res.status(400).json("wrong password");
       } else {
         res.status(200).json(user);
