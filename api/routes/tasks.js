@@ -1,9 +1,10 @@
 const router = require("express").Router();
 const Task = require("../models/Task");
+const auth = require("../middleware/auth");
 
 // create new task
 // Warning : task duplicates may exist given the same task Id and the same User Id
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   try {
     const newTask = new Task(req.body);
     const task = await newTask.save();
@@ -14,7 +15,7 @@ router.post("/", async (req, res) => {
 });
 
 // update a task
-router.put("/", async (req, res) => {
+router.put("/", auth, async (req, res) => {
   try {
     const task = await Task.findOne({ _id: req.body._id });
     if (task.userId === req.body.userId) {
@@ -67,7 +68,7 @@ router.get("/:userId", async (req, res) => {
 });
 
 // get user's tasks
-router.get("/all/:userId", async (req, res) => {
+router.get("/all/:userId",auth, async (req, res) => {
   try {
     const tasks = await Task.find({ userId: req.params.userId });
     const filteredTasks = tasks.map((e) => {

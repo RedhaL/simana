@@ -6,7 +6,6 @@ const UserSchema = new mongoose.Schema({
       require: true,
       min: 3,
       max: 20,
-      unique: true
     },
     email:{
       type:String,
@@ -18,6 +17,9 @@ const UserSchema = new mongoose.Schema({
       type:String,
       required: true,
       min:6
+    },
+    token:{
+      type:String,
     },
     profilePicture:{
       type:String,
