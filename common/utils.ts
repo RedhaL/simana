@@ -22,30 +22,19 @@ export const getCurrentWeekStart = (): IDate => {
     return toIDateObject(start);
 }
 
-export const getWeekStart = (date: IDate): IDate => {
-    // const d = new Date(date.year, date.month, date.date);
-    let dateObj = dayjs({
-        year: date.year,
-        month: date.month,
-        day: date.day
-    });
-    dateObj = dateObj.startOf('isoWeek');
-    return toIDateObject(dateObj);
-}
-
 export const getNextWeek = (date: IDate): IDate => {
-    const current = dayjs(date);
+    const current = dayjs(date.year + "-" + date.monthName + "-" + date.day);
     return toIDateObject(current.add(7, 'day'));
 }
 
 export const getPreviousWeek = (date: IDate): IDate => {
-    const current = dayjs(date);
+    const current = dayjs(date.year + "-" + date.monthName + "-" + date.day);
     return toIDateObject(current.subtract(7, 'day'));
 }
 
 export const getWeekDays = (date: IDate): IDate[] => {
     const days: IDate[] = [];
-    let current = dayjs(date);
+    let current = dayjs(date.year + "-" + date.monthName + "-" + date.day);
     for (let i = 0; i < 7; i++) {
         if (i > 0)
             current = current.add(1, 'day');
@@ -55,7 +44,7 @@ export const getWeekDays = (date: IDate): IDate[] => {
 }
 
 export const toTimestamp = (date: IDate): string => {
-    const d = dayjs(date);
+    const d = dayjs(date.year + "-" + date.monthName + "-" + date.day);
     return d.unix().toString();
 }
 
