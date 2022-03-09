@@ -18,4 +18,26 @@ const verifyToken = (req, res, next) => {
   return next();
 };
 
-module.exports = verifyToken;
+
+  // if user is authenticated the redirected to next page else redirect to login page
+  const ensureAuth = (req, res, next) => {
+    if (req.isAuthenticated()) {
+      console.log()
+      return next()
+    } else {
+      res.redirect('/')
+    }
+  }
+
+  // if user is authenticated and going to login page then redirected to home page if not authenticated redirected to login page  .
+  const ensureGuest = (req, res, next) => {
+    if (!req.isAuthenticated()) {
+      return next();
+    } else {
+      res.redirect('/log');
+    }
+  }
+
+  module.exports = verifyToken;
+  module.exports = ensureAuth;
+  module.exports = ensureGuest;

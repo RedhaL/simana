@@ -12,7 +12,7 @@ import TaskReducer from "../store/tasks/reducer";
 import taskMiddleware from "../store/tasks/actions";
 import Layout from "../components/Layout";
 import TaskContainer from "../components/TaskContainer";
-import { TasksCall } from "../apiCalls";
+import { googleCall, TasksCall, teeeest } from "../apiCalls";
 
 const Planner: NextPage = () => {
   const [retrieveTasks, setRetrieveTasks] = useState(false);
@@ -56,6 +56,9 @@ const Planner: NextPage = () => {
 
   useEffect(() => {
     TasksCall(localUser._id, taskDispatch, retrieveTasks, setRetrieveTasks);
+    googleCall();
+    teeeest();
+  
   }, []);
 
   const onDragEnd = (result: DropResult): void => {

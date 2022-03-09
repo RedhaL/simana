@@ -1,8 +1,9 @@
-import React, { FC, MouseEvent } from "react";
+import React, { FC, MouseEvent, useEffect, useState } from "react";
 import Head from "next/head";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import { HomeIcon } from "@heroicons/react/solid";
 import { IAction } from "../types";
+import axios from "axios";
 
 type Props = {
   pageTitle?: string;
@@ -19,6 +20,7 @@ const Layout: FC<Props> = (props) => {
   const handleHome = (e: MouseEvent<HTMLButtonElement>) => {
     props.calendarDispatch({ type: "TODAY" });
   };
+
   return (
     <>
       <Head>

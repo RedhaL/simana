@@ -4,11 +4,11 @@ import { ITask, Dispatch } from "./types";
 
 
 export default function authHeader(): AxiosRequestHeaders {
-    const saved = localStorage.getItem("user");
-    var localUser = JSON.parse(saved ? saved : "{}")
-  if (localUser && localUser.token) {
+    const saved = localStorage.getItem("token");
+    var token = JSON.parse(saved ? saved : "")
+  if (token) {
     // for Node.js Express back-end
-    return { 'x-access-token': localUser.token };
+    return { 'x-access-token': token };
   } else {
     return {};
   }
@@ -21,14 +21,30 @@ export const loginCall = async (userCredential: any) => {
       "http://localhost:8800/api/auth/login",
       userCredential
     );
-    const { createdAt,city, username, updatedAt,email,profilePicture, __v,password, ...filteredUser } = res.data;
-    localStorage.setItem("user", JSON.stringify(filteredUser));
+    localStorage.setItem("user", JSON.stringify(res.data.user));
+    localStorage.setItem("token", JSON.stringify(res.data.token));
+
     console.log("login ok");
     Router.reload();
   } catch (err) {
     console.log("login failed");
   }
 };
+
+// Login via Google
+export const googleCall = async () => {
+  console.log("okio")
+
+  try{
+const res = await axios.get('http://localhost:8800/');
+console.log("okio", res)
+return res
+  }catch(err){
+    console.log(err)
+  }
+
+};
+
 
 // Signup 
 export const signupCall = async (user: any) => {
@@ -43,9 +59,21 @@ export const signupCall = async (user: any) => {
 };
 
 // Add task to API
+export const teeeest = async () => {
+  try {
+    const res = await axios.get("http://localhost:8800/", {
+      withCredentials: true
+    });
+    return res;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// Add task to API
 export const addTaskCall = async (task: ITask) => {
   try {
-    const res = await axios.post("http://localhost:8800/api/tasks/", task, { headers: authHeader() });
+    const res = await axios.post("http://localhost:8800/api/tasks/", task);
     console.log("adding task ok :", res.data);
     const { createdAt, updatedAt, __v, ...filteredTask } = res.data;
     return filteredTask;
@@ -59,9 +87,18 @@ export const updateTask = async (task: ITask) => {
   try {
     const res = await axios.put("http://localhost:8800/api/tasks/", task, { headers: authHeader() });
     console.log("updating task ok :", res.data);
-    const { createdAt, updatedAt, __v, ...filteredTask } = res.data;
   } catch (err) {
-    console.log("updating task failed");
+    console.log("updating task failed", err);
+  }
+};
+
+// Delete task in API
+export const removeTask = async (task: ITask) => {
+  try {
+    const res = await axios.delete("http://localhost:8800/api/tasks/", { headers: authHeader(), data: task});
+    console.log("updating task ok :", res.data);
+  } catch (err) {
+    console.log("updating task failed", err);
   }
 };
 
@@ -74,7 +111,7 @@ export const TasksCall = async (
 ) => {
   try {
     const res = await axios.get(
-      "http://localhost:8800/api/tasks/all/" + userId, { headers: authHeader() }
+      "http://localhost:8800/api/tasks/all/" + userId
     );
     if (retrieveTasks == false) {
       res.data.forEach((e: ITask) => {
