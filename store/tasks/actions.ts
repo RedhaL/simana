@@ -1,5 +1,5 @@
 import { TaskState, IAction, ActionMapping, Dispatch } from "../../types";
-import { addTaskCall, updateTask } from "../../apiCalls";
+import { addTaskCall, removeTask, updateTask } from "../../apiCalls";
 
 //   retrieving user from local storage
 var localUser: any;
@@ -25,9 +25,29 @@ const retrieveTasks = (
   dispatch(action);
 };
 
+const deleteTask = async (
+  state: TaskState,
+  action: IAction,
+  dispatch: (action: IAction) => void
+) => {
+  dispatch(action);
+  await removeTask(action.data.task);
+};
+
+const editTask = async (
+  state: TaskState,
+  action: IAction,
+  dispatch: (action: IAction) => void
+) => {
+  dispatch(action);
+  action.data.task = await updateTask(action.data.task);
+};
+
 const actionMapping: ActionMapping<TaskState> = {
   ADD_TASK: addTask,
   RETRIEVE_TASKS: retrieveTasks,
+  DELETE_TASK: deleteTask,
+  EDIT_TASK: editTask,
 };
 
 export default function taskMiddleware(
