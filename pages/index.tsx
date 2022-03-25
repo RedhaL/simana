@@ -3,6 +3,7 @@ import {BrowserRouter, Routes, Route, Navigate} from "react-router-dom"
 import Planner from './planner';
 import Login from './login';
 import Register from './register';
+import { useEffect } from 'react';
 
 const Home: NextPage = () => {
 
