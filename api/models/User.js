@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
-var findOrCreate = require("mongoose-findorcreate");
 
 const UserSchema = new mongoose.Schema(
   {
@@ -75,7 +74,5 @@ UserSchema.methods.comparePassword = function (passw, cb) {
     cb(null, isMatch);
   });
 };
-
-UserSchema.plugin(findOrCreate);
 
 module.exports = mongoose.model("User", UserSchema);
